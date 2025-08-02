@@ -45,8 +45,6 @@ Assume that you’ll be doing at least RAG (e.g., a PDF) with a general agentic 
 
 [x] Collect data for (at least) RAG and choose (at least) one external API
 
-- *What are the specific questions that your user is likely to ask of your application?  **Write these down**.*
-
 1. Describe all of your data sources and external APIs, and describe what you’ll use them for.
     - Manually downloaded sources (PDF or HTML) of state foster care policies (see examples in `data/` directory in this repository).
       - These high quality sources will be embedded in our Qdrant vector store to be retrieved by our RAG system.
@@ -64,25 +62,59 @@ Assume that you’ll be doing at least RAG (e.g., a PDF) with a general agentic 
 
 **You are an AI Evaluation & Performance Engineer.**  The AI Systems Engineer who built the initial RAG system has asked for your help and expertise in creating a "Golden Data Set" for evaluation.
 
-[ ] Generate a synthetic test data set to baseline an initial evaluation with RAGAS
+[x] Generate a synthetic test data set to baseline an initial evaluation with RAGAS
+
+- Done in `rag_evaluation.ipynb`:
+
+![image](golden_dataset.png)
 
 1. Assess your pipeline using the RAGAS framework including key metrics faithfulness, response relevance, context precision, and context recall.  Provide a table of your output results.
+
+| Retrieval Method | Faithfulness |	Response relevance |	Context precision (llm_context_precision_with_reference) |	context_recall |  
+|-------------|----|---|----|-----------|
+| Naive Retrieval |	0.9296 | 0.9641 |	0.6737 |	1.0000 |
+| BM25 | 0.9539 | 0.9663 |	0.8727 |	0.9722 | 
+| Contextual Compression |	0.9362  | 0.9664  |	1.0000  |	0.9306  | 
+| Multi-Query |  0.9419	|  0.9586 |	 0.6515 |	1.0000  | 
+| Parent Document | 0.8857	| 0.9592  |	 0.8819 |	0.9514  |
+| Ensemble |  0.9822	| 0.9598  |	0.8246  |  1.0000 |
+
+
 2. What conclusions can you draw about the performance and effectiveness of your pipeline with this information?
+
+    - Our original "naive retrieval" approach performed quite well (all scores except context precision were fairly close to 1.0), but it was matched or outperformed by other retrieval methods in all metrics, so it's probably worth using a more advanced retrieval method, especially for improved context precision which will ensure the most relevant retrieved chunks are valued more highly than less relevant chunks. (Contextual compression seems especially helpful with this, as expected and as we can see it had a score of 1.0)
+    - The system seems robust enough that it should provide researchers with helpful responses. We'll want to continue to evaluate and iterate as we add more data sources and have more real users interacting with the system.
 
 ## Task 6: The Benefits of Advanced Retrieval
 
 **You are an AI Systems Engineer.**  The AI Evaluation and Performance Engineer has asked for your help in making stepwise improvements to the application. They heard that “as goes retrieval, so goes generation” and have asked for your expertise.
 
-[ ] Install an advanced retriever of your choosing in our Agentic RAG application. 
+[x] Install an advanced retriever of your choosing in our Agentic RAG application. 
 
 1. Describe the retrieval techniques that you plan to try and to assess in your application.  Write one sentence on why you believe each technique will be useful for your use case.
+    - `BM25`: Quickly finding documents that exactly match keywords would likely be helpful for researchers exploring very specific topics or policies.
+    - `Contextual Compression`: Spending more computation narrowing down quickly retrieved sources should increase context precision and promote the most relevant sources. 
+    - `Multi-Query`: It seems worth evaluating, but I don't anticipate multi-query retrieval being very useful for experienced researchers who are asking very specific questions. The additional generated questions may distract from the results they're seeking. On the other hand, it could lead to related lines of research they may not have originally considered.
+    - `Parent Document`: This technique seems especially promising to me since we can embed and match very specific child chunks but then return broader source content that may be of interest to researchers.
+    - `Ensemble`: Though slower and more expensive, higher quality results coming from multiple retrieval techniques would probably be valuable to researchers, especially as our source data continues to grow.
 2. Test a host of advanced retrieval techniques on your application.
+    - Done. See table in Task 5.1
 
 ## Task 7: Assessing Performance
 
 **You are the AI Evaluation & Performance Engineer**.  It's time to assess all options for this product.
 
-[ ] Assess the performance of the naive agentic RAG application versus the applications with advanced retrieval tooling
+[x] Assess the performance of the naive agentic RAG application versus the applications with advanced retrieval tooling
 
 1. How does the performance compare to your original RAG application?  Test the fine-tuned embedding model using the RAGAS frameworks to quantify any improvements.  Provide results in a table.
+    - See table in Task 5.1  All retrieval techniques performed very well in response relevance and context recall (>0.93). All techniques except parent document retriever had better faithfulness than naive retrieval. All techniques except multi-query retrieval improved context precision, with contextual compression achieving a score of 1.0
 2. Articulate the changes that you expect to make to your app in the second half of the course. How will you improve your application?
+    - Integrate vector store with existing Mendix database so I can use the full quality, coded sources of state policies.
+    - Ensure relevant source metadata is available in RAG and referenced in final responses.
+    - Add sources for more states and generate synthetic data with personas specifically designed to be economics researchers asking about multiple states.
+        - Embed more documents, shuffle chunks, and generate synthetic data using the first few (~20) chunks to get a more diverse generated dataset.
+    - Persist vector store so sources don't have to be chunked and embedded on every request.
+    - Add more robust LangSmith configuration for tracing and metrics analysis.
+    - Explore graphRAG vs vector embeddings as a way to find interesting connections across state policies.
+    - Provide guardrails to ensure our system only answers questions about foster care.
+    - Deploy frontend so researchers can use the system and provide feedback (probably using their own OpenAI API key or by securely using the univerity's key)
