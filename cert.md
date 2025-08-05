@@ -1,6 +1,6 @@
 # AI Makerspace Certification Challenge
 
-Loom video:
+Loom video: https://www.loom.com/share/4a3167cc745744c9be0afce6e71c8061?sid=d82ff8f3-d186-4619-8767-26815e0b829c
 
 ## Task 1: Problem and Audience
 
@@ -19,7 +19,7 @@ Loom video:
     - The system will search through state foster care policies to provide a relevant response. **Responses will link back to the original sources**, empowering researchers to quickly ask complex questions like: `Highlight policies in Colorado and California that differ from other states, especially if they may relate to likelihood of a child having multiple foster families.` Including context about the specific outcomes they're trying to understand may allow our system to identify meaningful insights. Or it could cause the system to make erroneous connections between cause and effect. In any case, our system will make cross-state comparison much faster than humans sifting through the many different policies. Using synthetically generated data and their own creativity, researchers will be able to quickly ask a wide array of questions with various amounts of context and identify specific sources that merit more rigorous study.
 2. Describe the tools you plan to use in each part of your stack.  Write one sentence on why you made each tooling choice.
     1. LLM
-        - `GPT 4.1`: The RAG model mainly needs to return relevant sources so it doesn't need to be super powerful (use `gpt-4.1-nano`), but we do want a more capable model to combine insight from various documents or web search results.
+        - `GPT 4.1`: The RAG model mainly needs to return relevant sources so it doesn't need to be super powerful (use `gpt-4.1-nano`), but we do want a more capable agent model to combine insight from various documents or web search results.
     2. Embedding Model
         - OpenAI's `text-embedding-3-small`: An inexpensive but effective embedding model for our initial prototype.
     3. Orchestration
@@ -56,7 +56,7 @@ Assume that you’ll be doing at least RAG (e.g., a PDF) with a general agentic 
 
 ## Task 4: End-to-End Agentic RAG Prototype
 
-[ ] Build an end-to-end prototype and deploy it to a local endpoint
+[x] Build an end-to-end prototype and deploy it to a local endpoint
 
 ## Task 5: Creating a Golden Test Data Set
 
@@ -89,7 +89,9 @@ Assume that you’ll be doing at least RAG (e.g., a PDF) with a general agentic 
 
 **You are an AI Systems Engineer.**  The AI Evaluation and Performance Engineer has asked for your help in making stepwise improvements to the application. They heard that “as goes retrieval, so goes generation” and have asked for your expertise.
 
-[x] Install an advanced retriever of your choosing in our Agentic RAG application. 
+[x] Install an advanced retriever of your choosing in our Agentic RAG application.
+
+- I used Contextual compression after comparing evaluation results.
 
 1. Describe the retrieval techniques that you plan to try and to assess in your application.  Write one sentence on why you believe each technique will be useful for your use case.
     - `BM25`: Quickly finding documents that exactly match keywords would likely be helpful for researchers exploring very specific topics or policies.
