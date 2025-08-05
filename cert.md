@@ -19,7 +19,7 @@ Loom video:
     - The system will search through state foster care policies to provide a relevant response. **Responses will link back to the original sources**, empowering researchers to quickly ask complex questions like: `Highlight policies in Colorado and California that differ from other states, especially if they may relate to likelihood of a child having multiple foster families.` Including context about the specific outcomes they're trying to understand may allow our system to identify meaningful insights. Or it could cause the system to make erroneous connections between cause and effect. In any case, our system will make cross-state comparison much faster than humans sifting through the many different policies. Using synthetically generated data and their own creativity, researchers will be able to quickly ask a wide array of questions with various amounts of context and identify specific sources that merit more rigorous study.
 2. Describe the tools you plan to use in each part of your stack.  Write one sentence on why you made each tooling choice.
     1. LLM
-        - `GPT 4.1 mini`: The model mainly needs to return relevant sources so it doesn't need to be super powerful, but we do want a model capable enough to combine insight from various documents or web search results.
+        - `GPT 4.1`: The RAG model mainly needs to return relevant sources so it doesn't need to be super powerful (use `gpt-4.1-nano`), but we do want a more capable model to combine insight from various documents or web search results.
     2. Embedding Model
         - OpenAI's `text-embedding-3-small`: An inexpensive but effective embedding model for our initial prototype.
     3. Orchestration
