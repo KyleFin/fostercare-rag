@@ -12,6 +12,7 @@ function App() {
     }
   ]);
   const [inputValue, setInputValue] = useState('');
+  const [allowWebSearch, setAllowWebSearch] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef(null);
 
@@ -45,7 +46,8 @@ function App() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          user_message: inputValue
+          user_message: inputValue,
+          developer_message: `For the following request, you ${allowWebSearch ? 'ARE' : 'are NOT'} allowed to use web search.`
         }),
       });
 
@@ -131,6 +133,13 @@ function App() {
             </div>
           )}
           <div ref={messagesEndRef} />
+        </div>
+
+        <div className="checkbox-container">
+          <label>
+            <input type="checkbox" checked={allowWebSearch} onChange={(e) => setAllowWebSearch(e.target.checked)} />
+            Allow Web Search (in addition to pre-processed sources)
+          </label>
         </div>
 
         <form onSubmit={handleSubmit} className="input-form">

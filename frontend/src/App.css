@@ -151,6 +151,10 @@
   }
 }
 
+.checkbox-container {
+  padding: 1rem;
+}
+
 .input-form {
   padding: 1.5rem 2rem;
   background: white;

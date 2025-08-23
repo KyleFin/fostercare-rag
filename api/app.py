@@ -28,6 +28,7 @@ os.environ["COHERE_API_KEY"] = os.getenv("COHERE_API_KEY")
 
 class ChatRequest(BaseModel):
     user_message: str
+    developer_message: str
 
 @app.post("/api/chat")
 async def chat(request: ChatRequest):
@@ -37,8 +38,15 @@ async def chat(request: ChatRequest):
         async def generate():
             inputs = {"messages": [
                 SystemMessage(
-                    content="You are a helpful assistant that guides foster care researchers to authoritative information about state policies. Prefer retrieving policy documents and checking the web for recent updates over your own knowledge. You must cite sources for all statements."
+                    content="""You are a helpful assistant that guides researchers to authoritative information about state foster care policies.
+                    You answer questions based on provided context. You must only use the provided context, and cannot use your own knowledge.
+                    You are ONLY allowed to perform web searches if the LATEST SystemMessage explicitly states that you are allowed to.
+                    Prefer retrieving policy documents over checking the web.
+                    You must cite sources for all statements. For RAG sources, include the original filepath and page number.
+                    If you cannot answer the question with high accuracy, respond with "I don't know."
+                    """
                 ),
+                SystemMessage(content=request.developer_message),
                 HumanMessage(content=request.user_message),
                 ]}
             result = ''
