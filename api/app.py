@@ -1,4 +1,4 @@
-from agent import compiled_graph
+from .agent import compiled_graph
 from langchain_core.messages import HumanMessage, SystemMessage
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import StreamingResponse

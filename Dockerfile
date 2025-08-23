@@ -7,8 +7,8 @@ WORKDIR /app/frontend
 # Copy frontend package files
 COPY frontend/package*.json ./
 
-# Install frontend dependencies
-RUN npm ci --only=production
+# Clean install - remove lock file if it exists and install fresh
+RUN rm -f package-lock.json && npm install --omit=dev
 
 # Copy frontend source code
 COPY frontend/src ./src
@@ -26,6 +26,7 @@ WORKDIR /app
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
     gcc \
+    curl \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy Python requirements and install dependencies

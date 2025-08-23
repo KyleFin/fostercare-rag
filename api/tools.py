@@ -43,7 +43,7 @@ tracer = LangChainTracer(project_name=os.environ["LANGSMITH_PROJECT"])
 tavily_search_tool = TavilySearchResults(max_results=5)
 
 # RAG tool
-path = "../data/"
+path = "./data/"
 loader = DirectoryLoader(path, glob="pub5108.pdf", loader_cls=PyMuPDFLoader)    # glob = "*.pdf" to load all pdfs
 docs = loader.load()
 
