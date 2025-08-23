@@ -7,7 +7,7 @@ function App() {
     {
       id: 1,
       type: 'assistant',
-      content: 'Hello! I\'m your Foster Care Policy Research Assistant. I can help you explore state foster care policies and find relevant information. What would you like to know?',
+      content: 'Hello! I can help you explore state foster care policies and find relevant information. What would you like to know?',
       timestamp: new Date()
     }
   ]);
@@ -102,7 +102,7 @@ function App() {
       <header className="header">
         <div className="header-content">
           <MessageCircle className="header-icon" />
-          <h1>Foster Care Policy Assistant</h1>
+          <h1>Foster Care Aficionado</h1>
           <p>Research state foster care policies with AI assistance</p>
         </div>
       </header>
