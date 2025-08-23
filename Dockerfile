@@ -42,33 +42,8 @@ COPY --from=frontend-builder /app/frontend/build ./frontend/build
 # Copy data files
 COPY data/ ./data/
 
-# Create a simple HTTP server script to serve the frontend
-RUN echo '#!/usr/bin/env python3\n\
-import http.server\n\
-import socketserver\n\
-import os\n\
-import threading\n\
-import subprocess\n\
-import sys\n\
-\n\
-def serve_frontend():\n\
-    os.chdir("/app/frontend/build")\n\
-    with socketserver.TCPServer(("", 3000), http.server.SimpleHTTPRequestHandler) as httpd:\n\
-        print("Frontend server running on port 3000")\n\
-        httpd.serve_forever()\n\
-\n\
-def serve_api():\n\
-    os.chdir("/app")\n\
-    subprocess.run([sys.executable, "-m", "uvicorn", "api.app:app", "--host", "0.0.0.0", "--port", "8000"])\n\
-\n\
-if __name__ == "__main__":\n\
-    # Start frontend server in a separate thread\n\
-    frontend_thread = threading.Thread(target=serve_frontend, daemon=True)\n\
-    frontend_thread.start()\n\
-    \n\
-    # Start API server in main thread\n\
-    serve_api()\n\
-' > /app/start_services.py
+# Copy the proxy handler script
+COPY proxy_handler.py /app/start_services.py
 
 RUN chmod +x /app/start_services.py
 
