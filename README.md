@@ -2,6 +2,8 @@
 
 This project uses Retrieval-Augmented Generation (RAG) to reliably answer questions about foster care policies across US states.
 
+👉 See demo videos in [cert.md](/cert.md) 👈
+
 ## Running with Docker
 
 ### Using Docker Compose (Recommended)
