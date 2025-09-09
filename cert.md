@@ -1,6 +1,10 @@
 # AI Makerspace Certification Challenge
 
-Loom video: https://www.loom.com/share/4a3167cc745744c9be0afce6e71c8061?sid=d82ff8f3-d186-4619-8767-26815e0b829c
+Certificate: http://bit.ly/AIE0718
+
+Final presentation: https://www.youtube.com/watch?v=LH__ikv1qls
+
+Loom video walkthrough: https://www.loom.com/share/4a3167cc745744c9be0afce6e71c8061?sid=d82ff8f3-d186-4619-8767-26815e0b829c
 
 ## Task 1: Problem and Audience
 
